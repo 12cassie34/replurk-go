@@ -37,8 +37,6 @@ func main() {
 		if len(plurks) == 0 {
 			jsonOK(w, map[string]any{
 				"status":  "success",
-				"message": "No new plurks to process",
-				"count":   0,
 			})
 			return
 		}
@@ -48,8 +46,6 @@ func main() {
 		}
 		jsonOK(w, map[string]any{
 			"status":  "success",
-			"message": "Store and replurk new plurks completed successfully",
-			"count":   len(plurks),
 		})
 	})
 
