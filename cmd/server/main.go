@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
-	"time"
 
 	"replurk-go/internal/config"
 	"replurk-go/internal/plurk"
@@ -56,11 +54,5 @@ func writeOK(w http.ResponseWriter) {
 
 func writeErr(w http.ResponseWriter, err error) {
 	log.Printf("handler error: %v", err)
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusInternalServerError)
-	_ = json.NewEncoder(w).Encode(map[string]any{
-		"status":    "error",
-		"message":   err.Error(),
-		"timestamp": time.Now().UTC().Format(time.RFC3339),
-	})
 }
