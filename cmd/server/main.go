@@ -48,11 +48,18 @@ func main() {
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
+// Tiny plaintext bodies: cron-job.org aborts jobs that read more than ~1 KiB of
+// response data (see their FAQ). Avoid large HTML error pages from intermediaries
+// by keeping success/error bodies minimal; full errors stay in server logs.
 func writeOK(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write([]byte("OK"))
 }
 
 func writeErr(w http.ResponseWriter, err error) {
 	log.Printf("handler error: %v", err)
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.WriteHeader(http.StatusInternalServerError)
+	_, _ = w.Write([]byte("ERR"))
 }
