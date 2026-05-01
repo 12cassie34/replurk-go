@@ -35,18 +35,14 @@ func main() {
 			ids = append(ids, p.PlurkID)
 		}
 		if len(plurks) == 0 {
-			jsonOK(w, map[string]any{
-				"status":  "success",
-			})
+			writeOK(w)
 			return
 		}
 		if err := api.Replurk(ids); err != nil {
 			writeErr(w, err)
 			return
 		}
-		jsonOK(w, map[string]any{
-			"status":  "success",
-		})
+		writeOK(w)
 	})
 
 	addr := ":" + cfg.Port
@@ -54,10 +50,8 @@ func main() {
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 
-func jsonOK(w http.ResponseWriter, payload any) {
-	w.Header().Set("Content-Type", "application/json")
+func writeOK(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode(payload)
 }
 
 func writeErr(w http.ResponseWriter, err error) {
