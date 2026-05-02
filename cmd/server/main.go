@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"replurk-go/internal/config"
 	"replurk-go/internal/plurk"
@@ -52,13 +53,20 @@ func main() {
 // response data (see their FAQ). Avoid large HTML error pages from intermediaries
 // by keeping success/error bodies minimal; full errors stay in server logs.
 func writeOK(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	const body = "OK"
+	h := w.Header()
+	h.Set("Content-Type", "text/plain; charset=utf-8")
+	h.Set("Content-Length", strconv.Itoa(len(body)))
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte("OK"))
+	_, _ = w.Write([]byte(body))
 }
 
 func writeErr(w http.ResponseWriter, err error) {
+	const body = "ERR"
 	log.Printf("handler error: %v", err)
+	h := w.Header()
+	h.Set("Content-Type", "text/plain; charset=utf-8")
+	h.Set("Content-Length", strconv.Itoa(len(body)))
 	w.WriteHeader(http.StatusInternalServerError)
-	_, _ = w.Write([]byte("ERR"))
+	_, _ = w.Write([]byte(body))
 }
