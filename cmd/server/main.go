@@ -59,7 +59,6 @@ func writeOK(w http.ResponseWriter) {
 
 func writeErr(w http.ResponseWriter, err error) {
 	log.Printf("handler error: %v", err)
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.WriteHeader(http.StatusInternalServerError)
 	_, _ = w.Write([]byte("ERR"))
 }
