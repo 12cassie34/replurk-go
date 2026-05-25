@@ -33,7 +33,7 @@ func cloneMap(in map[string]string) map[string]string {
 }
 
 // SearchCronQuery is the hashtag search string used by /run-cron (index.ts searchPlurks).
-const SearchCronQuery = "#卿卿我我 #恩恩愛愛 -J·M"
+const SearchCronQuery = "#卿卿我我 #恩恩愛愛 -角色宣傳"
 
 // SearchPlurks returns matching plurks that are not yet replurked.
 func (c *API) SearchPlurks() ([]Plurk, error) {
